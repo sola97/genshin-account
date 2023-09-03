@@ -19,6 +19,7 @@ namespace GenshinAccount
         private readonly string userDataPath = Path.Combine(Application.StartupPath, "UserData");
         private string thisVersion;
         private List<ToolStripMenuItem> acctMenuItemList = new List<ToolStripMenuItem>();
+        public string SwitchName { get; set; }
 
         public FormMain()
         {
@@ -59,6 +60,14 @@ namespace GenshinAccount
             lvwAcct.SmallImageList = imageList;
             RefreshList();
 
+            if (!string.IsNullOrEmpty(SwitchName))
+            {
+                Switch(SwitchName, chkAutoStartYS.Checked);
+                 var msgBox = new AutoCloseMessageBox("帐号"+SwitchName+"切换成功","提示");
+                 msgBox.Show();
+                this.Dispose();
+                this.Close();
+            }
         }
 
         private void btnSaveCurr_Click(object sender, EventArgs e)
@@ -133,7 +142,8 @@ namespace GenshinAccount
             Switch(name, chkAutoStartYS.Checked);
         }
 
-        private void Switch(string name, bool autoRestart)
+
+        public void Switch(string name, bool autoRestart)
         {
             if (string.IsNullOrEmpty(name))
             {
